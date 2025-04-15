@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import io
 import textwrap
-from fpdf import FPDF
-from tabulate import tabulate
 import xlsxwriter  # Ensure this is installed
 
 #########################################################
@@ -253,29 +251,6 @@ if uploaded_file is not None:
                         file_name="daily_overview.xlsx",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     )
-                    # PDF export: if more than one date is selected, provide a separate download button for each date.
-                    unique_export_dates = aggregated_all['date'].unique()
-                    if len(unique_export_dates) > 1:
-                        for d in unique_export_dates:
-                            pdf_df = aggregated_all[aggregated_all['date'] == d].drop(columns=["date"])
-                            pdf_data = dataframe_to_pdf(prepare_for_pdf(pdf_df, wrap_columns=['details'], wrap_width=50),
-                                                        title=f"Daily Overview for {d}")
-                            st.download_button(
-                                label=f"Download Daily Overview PDF for {d}",
-                                data=pdf_data,
-                                file_name=f"daily_overview_{d}.pdf",
-                                mime="application/pdf"
-                            )
-                    else:
-                        pdf_df = aggregated_export
-                        pdf_data = dataframe_to_pdf(prepare_for_pdf(pdf_df, wrap_columns=['details'], wrap_width=50),
-                                                    title="Daily Overview")
-                        st.download_button(
-                            label="Download Daily Overview as PDF",
-                            data=pdf_data,
-                            file_name="daily_overview.pdf",
-                            mime="application/pdf"
-                        )
         
         ##########################
         # Grass Tab
