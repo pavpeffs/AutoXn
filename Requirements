@@ -1,5 +1,5 @@
 streamlit
 pandas
-fpdf2
+fpdf==1.7.2
 xlsxwriter
 tabulate
